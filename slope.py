@@ -25,11 +25,13 @@ direction = vector(cos(angle), sin(angle), 0)
 
 resistance_factor = 0
 
-# The slope
 slope_length = 30
 slope_width = 5
 slope_thickness = 0.5
 
+falling_size = 2
+
+# The slope
 slope_pos = vector(-slope_length * sin(pi - angle) / 2,
                    -slope_length * sin(angle) / 2,
                    5)
@@ -41,7 +43,6 @@ slope = box(pos = slope_pos,
             axis = direction)
 
 # The falling box
-falling_size = 2
 falling_halfdiag = sqrt(falling_size * falling_size / 2)
 
 falling_pos = vector(falling_halfdiag,
