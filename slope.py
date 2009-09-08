@@ -12,6 +12,9 @@ def showaxes(length):
 # Scene setup
 scene.title = 'Skråt fald'
 scene.height = scene.width = 800
+scene.forward = (-4,-3,-6)
+scene.center = (2, 5, 0)
+scene.range = (25, 25, 25)
 
 # First things first: The x-, y- and z-axis
 showaxes(20)
