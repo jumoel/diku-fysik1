@@ -69,8 +69,7 @@ accel = vector(d_x, d_y, 0) * slowness - resistance
 
 speed = accel * dt
 
-# TODO: Calculate the proper length to fall
-while falling_thing.pos.y > (slope.pos.y - slope.length):
+while falling_thing.pos.y - falling_halfdiag > 0:
     rate(1/dt)
     falling_thing.pos = falling_thing.pos + speed
     speed = speed + accel*dt
