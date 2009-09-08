@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 from visual import *
 from math import *
 
