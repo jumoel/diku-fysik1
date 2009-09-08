@@ -38,8 +38,19 @@ slope = box(pos = slope_pos,
             width = slope_width,
             axis = direction)
 
+# The falling box
+falling_size = 2
+falling_halfdiag = sqrt(falling_size * falling_size / 2)
 
-falling_thing = box(pos = (-5,8,0), length = 2, height = 2, width = 2, axis = direction)
+falling_pos = vector(falling_halfdiag,
+                     -slope_length * sin(angle),
+                     5)
+
+falling_thing = box(pos = falling_pos,
+                    length = falling_size,
+                    height = falling_size,
+                    width = falling_size,
+                    axis = direction)
 
 g = -9.8
 
