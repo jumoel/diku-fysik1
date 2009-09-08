@@ -4,20 +4,10 @@ from math import *
 
 
 def showaxes(length):
-    axiswidth = 0.1
+    axiswidth = length / 100
     axis_x = arrow(pos = (0,0,0), axis = (length,0,0), shaftwidth = axiswidth, color = color.red)
     axis_y = arrow(pos = (0,0,0), axis = (0,length,0), shaftwidth = axiswidth, color = color.blue)
     axis_z = arrow(pos = (0,0,0), axis = (0,0,length), shaftwidth = axiswidth, color = color.green)
-
-# Scene setup
-scene.title = 'Skråt fald'
-scene.height = scene.width = 800
-scene.forward = (-4,-3,-6)
-scene.center = (2, 5, 0)
-scene.range = (25, 25, 25)
-
-# First things first: The x-, y- and z-axis
-showaxes(20)
 
 # Initial setup
 angle = radians(-45)
@@ -25,11 +15,21 @@ direction = vector(cos(angle), sin(angle), 0)
 
 resistance_factor = 0
 
-slope_length = 30
-slope_width = 5
-slope_thickness = 0.5
+slope_length = 1000
+slope_width = slope_length / 10
+slope_thickness = slope_length / 100
 
-falling_size = 2
+falling_size = slope_width / 3
+
+# Scene setup
+scene.title = 'Skråt fald'
+scene.height = scene.width = 800
+scene.forward = (-4,-3,-6)
+scene.center = (slope_length / 15, slope_length / 6, 0)
+scene.range = (slope_length * 5/6, slope_length * 5/6, slope_length * 5/6)
+
+# Show the x-, y- and z-axis
+showaxes(100)
 
 # The slope
 slope_pos = vector(-slope_length * sin(pi - angle) / 2,
@@ -63,7 +63,7 @@ d_x = g * cos(angle + pi)
 d_y = g * sin(angle + pi)
 
 dt = 0.001
-slowness = 0.001
+slowness = 0.1
 
 # TODO: Calculate the complete opposite of the direction vector
 resistance = vector(0,0,0) * resistance_factor
@@ -75,4 +75,5 @@ speed = accel * dt
 while falling_thing.pos.y - falling_halfdiag > 0:
     rate(1/dt)
     falling_thing.pos = falling_thing.pos + speed
-    speed = speed + accel*dt
+    ds = accel*dt
+    speed = speed + ds
