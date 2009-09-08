@@ -2,6 +2,16 @@
 from visual import *
 from math import *
 
+
+def showaxes(length):
+    axiswidth = 0.1
+    axis_x = arrow(pos = (0,0,0), axis = (length,0,0), shaftwidth = axiswidth, color = color.red)
+    axis_y = arrow(pos = (0,0,0), axis = (0,length,0), shaftwidth = axiswidth, color = color.blue)
+    axis_z = arrow(pos = (0,0,0), axis = (0,0,length), shaftwidth = axiswidth, color = color.green)
+
+
+# First things first: The x-, y- and z-axis
+showaxes(20)
 angle = radians(-45)
 angle_x = cos(angle)
 angle_y = sin(angle)
