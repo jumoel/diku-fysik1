@@ -52,8 +52,10 @@ falling_thing = box(pos = falling_pos,
                     width = falling_size,
                     axis = direction)
 
+# Gravity
 g = -9.8
 
+# The gravity split up along our slope-vectors
 d_x = g * cos(angle + pi)
 d_y = g * sin(angle + pi)
 
