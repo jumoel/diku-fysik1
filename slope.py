@@ -9,12 +9,17 @@ def showaxes(length):
     axis_y = arrow(pos = (0,0,0), axis = (0,length,0), shaftwidth = axiswidth, color = color.blue)
     axis_z = arrow(pos = (0,0,0), axis = (0,0,length), shaftwidth = axiswidth, color = color.green)
 
+# Scene setup
+scene.title = 'Skråt fald'
+scene.height = scene.width = 800
 
 # First things first: The x-, y- and z-axis
 showaxes(20)
+
+# Initial setup
 angle = radians(-45)
-angle_x = cos(angle)
-angle_y = sin(angle)
+direction = vector(cos(angle), sin(angle), 0)
+perp_direction = vector(direction.y, direction.x, 0)
 
 resistance_factor = 0
 
