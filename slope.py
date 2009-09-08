@@ -5,6 +5,8 @@ angle = radians(-45)
 angle_x = cos(angle)
 angle_y = sin(angle)
 
+resistance_factor = 0
+
 direction = vector(angle_x, angle_y, 0)
 perp_direction = vector(direction.y, direction.x, 0)
 
@@ -20,7 +22,8 @@ d_y = g * sin(angle + pi)
 dt = 0.001
 slowness = 0.001
 
-resistance = vector(0,0,0)
+# TODO: Calculate the complete opposite of the direction vector
+resistance = vector(0,0,0) * resistance_factor
 
 accel = vector(d_x, d_y, 0) * slowness - resistance
 
