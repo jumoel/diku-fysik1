@@ -22,7 +22,6 @@ showaxes(20)
 # Initial setup
 angle = radians(-45)
 direction = vector(cos(angle), sin(angle), 0)
-perp_direction = vector(direction.y, direction.x, 0)
 
 resistance_factor = 0
 
