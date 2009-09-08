@@ -23,11 +23,22 @@ perp_direction = vector(direction.y, direction.x, 0)
 
 resistance_factor = 0
 
-direction = vector(angle_x, angle_y, 0)
-perp_direction = vector(direction.y, direction.x, 0)
+# The slope
+slope_length = 30
+slope_width = 5
+slope_thickness = 0.5
 
-# TODO: Calculate position of box relative to slope
-slope = box(pos = (0,0,0), length = 100, height = 0.5, width = 5, axis = direction)
+slope_pos = vector(-slope_length * sin(pi - angle) / 2,
+                   -slope_length * sin(angle) / 2,
+                   5)
+
+slope = box(pos = slope_pos,
+            length = slope_length,
+            height = slope_thickness,
+            width = slope_width,
+            axis = direction)
+
+
 falling_thing = box(pos = (-5,8,0), length = 2, height = 2, width = 2, axis = direction)
 
 g = -9.8
