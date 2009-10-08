@@ -10,8 +10,10 @@ def showaxes(length):
     axis_z = arrow(pos = (0,0,0), axis = (0,0,length), shaftwidth = axiswidth, color = color.green)
 
 # Initial setup
-angle = radians(-45)
+set_angle = 50
+angle = radians(-1*set_angle)
 direction = vector(cos(angle), sin(angle), 0)
+distO = 100
 
 resistance_factor = 0
 
@@ -32,28 +34,36 @@ scene.range = (slope_length * 5/6, slope_length * 5/6, slope_length * 5/6)
 showaxes(100)
 
 # The slope
-slope_pos = vector(-slope_length * sin(pi - angle) / 2,
-                   -slope_length * sin(angle) / 2,
-                   5)
+
+slope_pos = vector(distO,distO,distO)
+
 
 slope = box(pos = slope_pos,
             length = slope_length,
             height = slope_thickness,
-            width = slope_width,
-            axis = direction)
+            width = slope_width)
 
-# The falling box
-falling_halfdiag = sqrt(falling_size * falling_size / 2)
+slope.rotate(angle = angle,
+           axis = (0,0,1),
+           origin = slope_pos)
 
-falling_pos = vector(falling_halfdiag,
-                     -slope_length * sin(angle),
-                     5)
+# The falling box http://vpython.org/contents/docs/visual/rotation.html
+if set_angle*-1 < 0:
+    falling_pos = vector(distO - slope_length/2 + falling_size/2,
+                         distO + slope_thickness/2 + falling_size/2,
+                         distO)
+else:
+    falling_pos = vector(distO + slope_length/2 - falling_size/2,
+                         distO + slope_thickness/2 + falling_size/2,
+                         distO)
 
 falling_thing = box(pos = falling_pos,
                     length = falling_size,
                     height = falling_size,
-                    width = falling_size,
-                    axis = direction)
+                    width = falling_size)
+falling_thing.rotate(angle = angle,
+                     axis = (0,0,1),
+                     origin = slope_pos)
 
 # Gravity
 g = -9.8
@@ -65,15 +75,26 @@ d_y = g * sin(angle + pi)
 dt = 0.001
 slowness = 0.1
 
-# TODO: Calculate the complete opposite of the direction vector
+# Set resistance
 resistance = vector(0,0,0) * resistance_factor
 
-accel = vector(d_x, d_y, 0) * slowness - resistance
+# Calculate acceleration
+if (abs(set_angle) < 90):
+    accel = vector(d_x, d_y, 0) * slowness * sin(abs(angle))
+    - min(resistance, vector(d_x, d_y, 0) * slowness * sin(abs(angle)))
+else:
+    accel = vector(0,g,0) * slowness
 
+# Calculate speed
 speed = accel * dt
 
-while falling_thing.pos.y - falling_halfdiag > 0:
+initial_falling_pos_y = falling_thing.pos.y
+
+while initial_falling_pos_y - abs(slope_length * sin(angle)) < falling_thing.pos.y:
     rate(1/dt)
-    falling_thing.pos = falling_thing.pos + speed
+    if set_angle*-1 < 0:
+        falling_thing.pos = falling_thing.pos + speed
+    else:
+        falling_thing.pos = falling_thing.pos - speed
     ds = accel*dt
     speed = speed + ds
