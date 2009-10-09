@@ -10,11 +10,12 @@ def showaxes(length):
     axis_z = arrow(pos = (0,0,0), axis = (0,0,length), shaftwidth = axiswidth, color = color.green)
 
 # Initial setup
-set_angle = 50
+set_angle = 10
 angle = radians(-1*set_angle)
 direction = vector(cos(angle), sin(angle), 0)
 distO = 100
 
+# Resistance factor in m/s^2
 resistance_factor = 0
 
 slope_length = 1000
@@ -76,12 +77,15 @@ dt = 0.001
 slowness = 0.1
 
 # Set resistance
-resistance = vector(0,0,0) * resistance_factor
+resistance = vector(cos(angle + pi), sin(angle + pi),0) * resistance_factor
 
 # Calculate acceleration
 if (abs(set_angle) < 90):
-    accel = vector(d_x, d_y, 0) * slowness * sin(abs(angle))
-    - min(resistance, vector(d_x, d_y, 0) * slowness * sin(abs(angle)))
+    accel = vector(d_x, d_y, 0) * sin(abs(angle)) * slowness
+    if accel.y + resistance.y * slowness < 0:
+        accel = accel + resistance * slowness
+    else:
+        accel = vector(0,0,0)
 else:
     accel = vector(0,g,0) * slowness
 

@@ -10,7 +10,7 @@ def showaxes(length):
 
 scene.title = "Projektilaffyring"
 
-angle = radians(80) # degrees
+angle = radians(85) # degrees
 v0 = 10 # m/s-ish
 g = 9.8 # m/s^2
 
@@ -21,8 +21,8 @@ t_max = 2*v_0y / g
 y_max = v_0y * (t_max / 2) - (g / 2) * pow(t_max / 2, 2)
 x_max = v_0x * t_max
 
-scene.height = 800
-scene.width = 800
+scene.height = 700
+scene.width = 700
 largest_edge = x_max if x_max > y_max else y_max
 
 scene.center = (largest_edge * 0.5 , largest_edge * 0.5, 0)
