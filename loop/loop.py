@@ -60,7 +60,21 @@ def circle(angle, (x_c, y_c), radius, width):
                           corner_3,
                           corner_4])
 
-    model = faces(pos = positions)
+        # Normals
+        normals.extend([uvect(corner_1, mid),
+                        uvect(corner_2, mid),
+                        uvect(corner_4, mid),
+                        uvect(corner_4, mid),
+                        uvect(corner_3, mid),
+                        uvect(corner_1, mid),
+                        uvect(corner_1, mid),
+                        uvect(corner_4, mid),
+                        uvect(corner_2, mid),
+                        uvect(corner_1, mid),
+                        uvect(corner_3, mid),
+                        uvect(corner_4, mid)])
+
+    model = faces(pos = positions, normal = normals)
 
     return (f, model)
 
