@@ -2,26 +2,30 @@
 from math import *
 from visual import *
 
-def uvect(origin, mid):
-    """
-    Calculates a unit vector from the <origin> (a vertice
-    on the circle) to the <mid> of the circle
-    """
-    vec = mid - origin
-    vec.mag = 1
-    return vec
 
-def circle(angle, (x_c, y_c), radius, width):
+def circle(angle, (x_c, y_c), radius, width, z_begin, z_end):
     """
     Gives a <angle> part of a circle created with faces
     from VPython.
     """
+    def uvect(origin, mid):
+        """
+        Calculates a unit vector from the <origin> (a vertice
+        on the circle) to the <mid> of the circle
+        """
+        vec = mid - origin
+        vec.mag = 1
+        return vec
+
+    z_displacement = float(z_end) - float(z_begin)
+    z_delta = z_displacement / float(angle)
+
     mid = vector(x_c, y_c)
 
     f = frame()
 
-    z_a = width / 2.
-    z_b = -z_a
+    z_a = z_begin + width / 2.
+    z_b = z_begin - width / 2.
 
     positions = []
     normals = []
@@ -34,6 +38,9 @@ def circle(angle, (x_c, y_c), radius, width):
         rad = rad_n
         x_r = x_rn
         y_r = y_rn
+
+        z_a = z_a + z_delta
+        z_b = z_b + z_delta
      
         rad_n = radians(i + 1)
         x_rn  = x_c + cos(rad_n) * (radius)
@@ -74,11 +81,13 @@ def circle(angle, (x_c, y_c), radius, width):
                         uvect(corner_3, mid),
                         uvect(corner_4, mid)])
 
+    z_curmid = (z_a + z_b) / 2.
+
     model = faces(pos = positions, normal = normals)
 
-    return (f, model)
+    return (f, model, z_curmid)
 
 scene.title = "loop"
 scene.autoscale = True
 
-(f, model) = circle(360, (0,0), 10, 5)
+(f, model, z) = circle(360, (0,0), 10, 5, 5, 50)
