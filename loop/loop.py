@@ -2,45 +2,69 @@
 from math import *
 from visual import *
 
-# x = x_c - r * cos(angle)
-# y = y_c - r * sin(angle)
+def uvect(origin, mid):
+    """
+    Calculates a unit vector from the <origin> (a vertice
+    on the circle) to the <mid> of the circle
+    """
+    vec = mid - origin
+    vec.mag = 1
+    return vec
 
-def circle(angle, (x_c, x_y), radius):
+def circle(angle, (x_c, y_c), radius, width):
     """
     Gives a <angle> part of a circle created with faces
     from VPython.
     """
+    mid = vector(x_c, y_c)
 
     f = frame()
 
-    # 3 points to a triangle, 2 triangles per square, 2 sides to a square = 12
-    multiplier = 12
-    model = faces(pos = zeros( (multiplier*angle, 3), float))
+    z_a = width / 2.
+    z_b = -z_a
 
-    current_angle = 0
+    positions = []
+    normals = []
 
-    x_this, x_next = 0
-    y_this, y_next = 0
+    rad_n = radians(0)
+    x_rn  = x_c + cos(rad_n) * (radius)
+    y_rn  = y_c + sin(rad_n) * (radius)
+ 
+    for i in range(angle):
+        rad = rad_n
+        x_r = x_rn
+        y_r = y_rn
+     
+        rad_n = radians(i + 1)
+        x_rn  = x_c + cos(rad_n) * (radius)
+        y_rn  = y_c + sin(rad_n) * (radius)
 
-    z_a = 5
-    z_b = -5
+        corner_1 = vector(x_r,  y_r,  z_b)
+        corner_2 = vector(x_r,  y_r,  z_a)
+        corner_3 = vector(x_rn, y_rn, z_b)
+        corner_4 = vector(x_rn, y_rn, z_a)
 
-    for i in arange(angle):
-        rad = radians(i)
-        rad_next = radians(i+1)
+        # Front
+        positions.extend([corner_1,
+                          corner_2,
+                          corner_4])
+        positions.extend([corner_4,
+                          corner_3,
+                          corner_1])
 
-        x_this = x_c - radius * cos(rad)
-        x_next = x_c - radius * cos(rad_next)
-        y_this = y_c - radius * sin(rad)
-        y_next = y_c - radius * sin(rad_next)
+        # Back
+        positions.extend([corner_1,
+                          corner_4,
+                          corner_2])
+        positions.extend([corner_1,
+                          corner_3,
+                          corner_4])
 
-        model.pos[angle*multiplier + 0] = (x_this, y_this, z_a)
-        model.pos[angle*multiplier + 1] = (x_this, y_this, z_b)
-        model.pos[angle*multiplier + 2] = (x_next, y_next, z_b)
-        model.pos[angle*multiplier + 3] = (x_next, y_next, z_a)
-        model.pos[angle*multiplier + 4] = (x_next, y_next, z_b)
-        model.pos[angle*multiplier + 5] = (x_this, y_this, z_a)
+    model = faces(pos = positions)
 
     return (f, model)
 
-print circle(0)
+scene.title = "loop"
+scene.autoscale = True
+
+(f, model) = circle(360, (0,0), 10, 5)
