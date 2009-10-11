@@ -86,8 +86,3 @@ def circle(angle, (x_c, y_c), radius, width, z_begin, z_end):
     model = faces(pos = positions, normal = normals)
 
     return (f, model, z_curmid)
-
-scene.title = "loop"
-scene.autoscale = True
-
-(f, model, z) = circle(360, (0,0), 10, 5, 5, 50)
