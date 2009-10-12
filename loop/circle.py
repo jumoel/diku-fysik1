@@ -83,6 +83,6 @@ def circle(angle, (x_c, y_c), radius, width, z_begin, z_end):
 
     z_curmid = (z_a + z_b) / 2.
 
-    model = faces(pos = positions, normal = normals)
+    model = faces(pos = positions, normal = normals, frame = f)
 
     return (f, model, z_curmid)
